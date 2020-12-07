@@ -31,7 +31,6 @@ import java.util.function.Consumer;
 
 import org.apache.commons.io.FileUtils;
 import org.gradle.api.Project;
-import org.gradle.api.artifacts.dsl.DependencyHandler;
 
 import net.fabricmc.loom.providers.MappingsProvider;
 import net.fabricmc.loom.providers.MinecraftMappedProvider;
@@ -97,23 +96,15 @@ public class MinecraftProcessedProvider extends MinecraftMappedProvider {
 
 		getProject().getRepositories().flatDir(repository -> repository.dir(getJarDirectory(getExtension().getProjectPersistentCache(), PROJECT_MAPPED_CLASSIFIER)));
 
-		DependencyHandler dependencies = getProject().getDependencies();
+		String compileClassifier = this.split ? PROJECT_MAPPED_COMPILE_CLASSIFIER : PROJECT_MAPPED_CLASSIFIER;
+		String runtimeClassifier = this.split ? PROJECT_MAPPED_RUNTIME_CLASSIFIER : PROJECT_MAPPED_CLASSIFIER;
 
-		if (this.split) {
-			dependencies.add(Constants.Configurations.MINECRAFT_NAMED_COMPILE,
-					dependencies.module("net.minecraft:minecraft:" + getJarVersionString(PROJECT_MAPPED_COMPILE_CLASSIFIER))
-			);
-			dependencies.add(Constants.Configurations.MINECRAFT_NAMED_RUNTIME,
-					dependencies.module("net.minecraft:minecraft:" + getJarVersionString(PROJECT_MAPPED_RUNTIME_CLASSIFIER))
-			);
-		} else {
-			dependencies.add(Constants.Configurations.MINECRAFT_NAMED_COMPILE,
-					dependencies.module("net.minecraft:minecraft:" + getJarVersionString(PROJECT_MAPPED_CLASSIFIER))
-			);
-			dependencies.add(Constants.Configurations.MINECRAFT_NAMED_RUNTIME,
-					dependencies.module("net.minecraft:minecraft:" + getJarVersionString(PROJECT_MAPPED_CLASSIFIER))
-			);
-		}
+		getProject().getDependencies().add(Constants.Configurations.MINECRAFT_NAMED_COMPILE,
+				getProject().getDependencies().module("net.minecraft:minecraft:" + getJarVersionString(compileClassifier))
+		);
+		getProject().getDependencies().add(Constants.Configurations.MINECRAFT_NAMED_RUNTIME,
+				getProject().getDependencies().module("net.minecraft:minecraft:" + getJarVersionString(runtimeClassifier))
+		);
 	}
 
 	private void invalidateJars() {
