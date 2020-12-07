@@ -166,6 +166,8 @@ publishing {
 		}
 	}
 	repositories {
+		mavenLocal()
+/*
 		maven {
 			if (ENV.MAVEN_URL) {
 				url ENV.MAVEN_URL
@@ -175,5 +177,6 @@ publishing {
 				}
 			}
 		}
+*/
 	}
 }

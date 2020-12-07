@@ -167,10 +167,11 @@ public class MappingsProvider extends DependencyProvider {
 		mappedProvider.provide(dependency, postPopulationScheduler);
 	}
 
+	@SuppressWarnings("RedundantCast")
 	private void storeMappings(Project project, MinecraftProvider minecraftProvider, Path yarnJar) throws IOException {
 		project.getLogger().lifecycle(":extracting " + yarnJar.getFileName());
 
-		try (FileSystem fileSystem = FileSystems.newFileSystem(yarnJar, null)) {
+		try (FileSystem fileSystem = FileSystems.newFileSystem(yarnJar, (ClassLoader) null)) {
 			extractMappings(fileSystem, baseTinyMappings);
 		}
 
