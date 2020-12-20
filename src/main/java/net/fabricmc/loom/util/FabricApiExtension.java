@@ -39,7 +39,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 
 public class FabricApiExtension {
 	private final Project project;
@@ -102,7 +102,7 @@ public class FabricApiExtension {
 	}
 
 	private File getApiMavenPom(String fabricApiVersion) {
-		LoomGradleExtension extension = project.getExtensions().getByType(LoomGradleExtension.class);
+		LoomExtension extension = project.getExtensions().getByType(LoomExtension.class);
 
 		File mavenPom = new File(extension.getUserCache(), "fabric-api/" + fabricApiVersion + ".pom");
 

@@ -44,8 +44,8 @@ import org.xml.sax.SAXException;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.TaskAction;
 
-import net.fabricmc.loom.AbstractPlugin;
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.ProjectHandler;
+import net.fabricmc.loom.LoomExtension;
 import net.fabricmc.loom.util.RunConfig;
 
 public class GenIdeaProjectTask extends AbstractLoomTask {
@@ -54,11 +54,11 @@ public class GenIdeaProjectTask extends AbstractLoomTask {
 		Project project = this.getProject();
 
 		// Only generate the idea runs on the root project
-		if (!AbstractPlugin.isRootProject(project)) {
+		if (!ProjectHandler.isRootProject(project)) {
 			return;
 		}
 
-		LoomGradleExtension extension = getExtension();
+		LoomExtension extension = getExtension();
 		project.getLogger().lifecycle(":Building idea workspace");
 
 		File file = project.file(project.getName() + ".iws");

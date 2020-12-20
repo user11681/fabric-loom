@@ -52,7 +52,7 @@ import net.fabricmc.accesswidener.AccessWidenerReader;
 import net.fabricmc.accesswidener.AccessWidenerRemapper;
 import net.fabricmc.accesswidener.AccessWidenerVisitor;
 import net.fabricmc.accesswidener.AccessWidenerWriter;
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 import net.fabricmc.loom.processors.Environment;
 import net.fabricmc.loom.processors.JarProcessor;
 import net.fabricmc.loom.util.Checksum;
@@ -76,15 +76,15 @@ public class AccessWidenerJarProcessor implements JarProcessor {
 
 	@Override
 	public void setup() {
-		LoomGradleExtension loomGradleExtension = project.getExtensions().getByType(LoomGradleExtension.class);
+		LoomExtension loomExtension = project.getExtensions().getByType(LoomExtension.class);
 
-		if (!loomGradleExtension.accessWidener.exists()) {
-			throw new RuntimeException("Could not find access widener file @ " + loomGradleExtension.accessWidener.getAbsolutePath());
+		if (!loomExtension.accessWidener.exists()) {
+			throw new RuntimeException("Could not find access widener file @ " + loomExtension.accessWidener.getAbsolutePath());
 		}
 
-		inputHash = Checksum.sha256(loomGradleExtension.accessWidener);
+		inputHash = Checksum.sha256(loomExtension.accessWidener);
 
-		try (BufferedReader reader = new BufferedReader(new FileReader(loomGradleExtension.accessWidener))) {
+		try (BufferedReader reader = new BufferedReader(new FileReader(loomExtension.accessWidener))) {
 			accessWidenerReader.read(reader);
 		} catch (IOException e) {
 			throw new RuntimeException("Failed to read project access widener file");
@@ -93,8 +93,8 @@ public class AccessWidenerJarProcessor implements JarProcessor {
 		//Remap accessWidener if its not named, allows for AE's to be written in intermediary
 		if (!accessWidener.getNamespace().equals("named")) {
 			try {
-				TinyRemapper tinyRemapper = loomGradleExtension.getMinecraftMappedProvider().getTinyRemapper("official", "named");
-				tinyRemapper.readClassPath(loomGradleExtension.getMinecraftMappedProvider().getRemapClasspath());
+				TinyRemapper tinyRemapper = loomExtension.getMinecraftMappedProvider().getTinyRemapper("official", "named");
+				tinyRemapper.readClassPath(loomExtension.getMinecraftMappedProvider().getRemapClasspath());
 
 				AccessWidenerRemapper remapper = new AccessWidenerRemapper(accessWidener, tinyRemapper.getRemapper(), "named");
 				accessWidener = remapper.remap();

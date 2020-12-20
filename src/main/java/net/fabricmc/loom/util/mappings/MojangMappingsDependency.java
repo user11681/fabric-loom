@@ -53,7 +53,7 @@ import org.zeroturnaround.zip.ByteSource;
 import org.zeroturnaround.zip.ZipEntrySource;
 import org.zeroturnaround.zip.ZipUtil;
 
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 import net.fabricmc.loom.util.DownloadUtil;
 import net.fabricmc.loom.util.MinecraftVersionInfo;
 import net.fabricmc.lorenztiny.TinyMappingsReader;
@@ -67,9 +67,9 @@ public class MojangMappingsDependency implements SelfResolvingDependency {
 	private static final String MANIFEST_SERVER_MAPPINGS = "server_mappings";
 
 	private final Project project;
-	private final LoomGradleExtension extension;
+	private final LoomExtension extension;
 
-	public MojangMappingsDependency(Project project, LoomGradleExtension extension) {
+	public MojangMappingsDependency(Project project, LoomExtension extension) {
 		this.project = project;
 		this.extension = extension;
 	}

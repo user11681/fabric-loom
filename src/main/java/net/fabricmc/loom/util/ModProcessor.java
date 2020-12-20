@@ -55,7 +55,7 @@ import net.fabricmc.accesswidener.AccessWidener;
 import net.fabricmc.accesswidener.AccessWidenerReader;
 import net.fabricmc.accesswidener.AccessWidenerRemapper;
 import net.fabricmc.accesswidener.AccessWidenerWriter;
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 import net.fabricmc.loom.providers.MappingsProvider;
 import net.fabricmc.loom.providers.MinecraftMappedProvider;
 import net.fabricmc.loom.processors.dependency.ModDependencyInfo;
@@ -128,7 +128,7 @@ public class ModProcessor {
 	}
 
 	private static void remapJars(Project project, List<ModDependencyInfo> processList) throws IOException {
-		LoomGradleExtension extension = project.getExtensions().getByType(LoomGradleExtension.class);
+		LoomExtension extension = project.getExtensions().getByType(LoomExtension.class);
 		String fromM = "intermediary";
 		String toM = "named";
 
@@ -201,7 +201,7 @@ public class ModProcessor {
 
 	static JsonObject readInstallerJson(File file, Project project) {
 		try {
-			LoomGradleExtension extension = project.getExtensions().getByType(LoomGradleExtension.class);
+			LoomExtension extension = project.getExtensions().getByType(LoomExtension.class);
 			String launchMethod = extension.getLoaderLaunchMethod();
 
 			String jsonStr;

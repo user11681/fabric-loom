@@ -37,8 +37,8 @@ class SimpleBuildFunctionalTest extends Specification {
 	def "simple build succeeds using Minecraft #mcVersion"() {
 		given:
 		settingsFile << genSettingsFile("simple-build-functional-test")
-		propsFile << genPropsFile(mcVersion, yarnVersion, loaderVersion, fabricVersion)
-		buildFile << genBuildFile()
+		propsFile << BuildUtils.genPropsFile(mcVersion, yarnVersion, loaderVersion, fabricVersion)
+		buildFile << BuildUtils.genBuildFile()
 		modJsonFile << genModJsonFile()
 		modExampleFile << genModJavaFile()
 

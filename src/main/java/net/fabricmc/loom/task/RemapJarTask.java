@@ -42,7 +42,7 @@ import org.gradle.api.tasks.TaskAction;
 import org.gradle.jvm.tasks.Jar;
 import org.zeroturnaround.zip.ZipUtil;
 
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 import net.fabricmc.loom.providers.MappingsProvider;
 import net.fabricmc.loom.util.GradleSupport;
 import net.fabricmc.loom.util.MixinRefmapHelper;
@@ -81,7 +81,7 @@ public class RemapJarTask extends Jar {
 
 	public void doSingleRemap() throws Throwable {
 		Project project = getProject();
-		LoomGradleExtension extension = project.getExtensions().getByType(LoomGradleExtension.class);
+		LoomExtension extension = project.getExtensions().getByType(LoomExtension.class);
 		Path input = this.getInput().getAsFile().get().toPath();
 		Path output = this.getArchivePath().toPath();
 
@@ -165,7 +165,7 @@ public class RemapJarTask extends Jar {
 
 	public void scheduleRemap() throws Throwable {
 		Project project = getProject();
-		LoomGradleExtension extension = project.getExtensions().getByType(LoomGradleExtension.class);
+		LoomExtension extension = project.getExtensions().getByType(LoomExtension.class);
 		Path input = this.getInput().getAsFile().get().toPath();
 		Path output = this.getArchivePath().toPath();
 

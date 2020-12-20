@@ -34,7 +34,7 @@ import java.util.function.Function;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.JavaExec;
 
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 import net.fabricmc.loom.util.RunConfig;
 
 public abstract class AbstractRunTask extends JavaExec {
@@ -47,7 +47,7 @@ public abstract class AbstractRunTask extends JavaExec {
 		this.configProvider = config;
 
 		classpath(getProject().getConfigurations().getByName("runtimeClasspath"));
-		classpath(this.getProject().getExtensions().getByType(LoomGradleExtension.class).getUnmappedModCollection());
+		classpath(this.getProject().getExtensions().getByType(LoomExtension.class).getUnmappedModCollection());
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public abstract class AbstractRunTask extends JavaExec {
 		}
 
 		args(argsSplit);
-		LoomGradleExtension extension = this.getProject().getExtensions().getByType(LoomGradleExtension.class);
+		LoomExtension extension = this.getProject().getExtensions().getByType(LoomExtension.class);
 		setWorkingDir(new File(getProject().getRootDir(), extension.runDir));
 
 		super.exec();

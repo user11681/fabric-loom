@@ -31,13 +31,13 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.FileUtils;
 import org.gradle.api.Project;
 
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 import net.fabricmc.loom.providers.MinecraftAssetsProvider;
 import net.fabricmc.loom.providers.MinecraftNativesProvider;
 
 public class SetupIntelijRunConfigs {
 	public static void setup(Project project) {
-		LoomGradleExtension extension = project.getExtensions().getByType(LoomGradleExtension.class);
+		LoomExtension extension = project.getExtensions().getByType(LoomExtension.class);
 
 		File projectDir = project.getRootProject().file(".idea");
 
@@ -60,7 +60,7 @@ public class SetupIntelijRunConfigs {
 
 	private static void generate(Project project) throws IOException {
 		Project rootProject = project.getRootProject();
-		LoomGradleExtension extension = project.getExtensions().getByType(LoomGradleExtension.class);
+		LoomExtension extension = project.getExtensions().getByType(LoomExtension.class);
 
 		if (extension.ideSync()) {
 			//Ensures the assets are downloaded when idea is syncing a project

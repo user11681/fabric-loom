@@ -39,7 +39,6 @@ public class Constants {
 	public static final int ASM_VERSION = Opcodes.ASM9;
 
 	public static final List<RemappedConfigurationEntry> MOD_COMPILE_ENTRIES = ImmutableList.of(
-			new RemappedConfigurationEntry("modCompile", "compile", true, "compile"),
 			new RemappedConfigurationEntry("modApi", "api", true, "compile"),
 			new RemappedConfigurationEntry("modImplementation", "implementation", true, "runtime"),
 			new RemappedConfigurationEntry("modRuntime", "runtimeOnly", false, ""),

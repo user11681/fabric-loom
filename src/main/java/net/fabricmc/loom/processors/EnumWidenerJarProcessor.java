@@ -32,20 +32,20 @@ import org.gradle.api.Project;
 import org.zeroturnaround.zip.ZipUtil;
 import org.zeroturnaround.zip.transform.ZipEntryTransformerEntry;
 
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 import net.fabricmc.loom.util.enumwidener.EnumWidenerTransformerEntry;
 
 public class EnumWidenerJarProcessor implements JarProcessor {
 	private static final String HASH_FILE_NAME = "ew.hash";
 
 	private final Project project;
-	private final LoomGradleExtension loom;
+	private final LoomExtension loom;
 
 	private List<String> classes;
 
 	public EnumWidenerJarProcessor(Project project) {
 		this.project = project;
-		this.loom = project.getExtensions().getByType(LoomGradleExtension.class);
+		this.loom = project.getExtensions().getByType(LoomExtension.class);
 	}
 
 	@Override

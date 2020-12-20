@@ -45,7 +45,7 @@ import org.zeroturnaround.zip.FileSource;
 import org.zeroturnaround.zip.ZipEntrySource;
 import org.zeroturnaround.zip.ZipUtil;
 
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 import net.fabricmc.loom.processors.EnumWidenerJarProcessor;
 import net.fabricmc.loom.processors.JarProcessorManager;
 import net.fabricmc.loom.processors.MinecraftProcessedProvider;
@@ -147,7 +147,7 @@ public class MappingsProvider extends DependencyProvider {
 
 		addDependency(tinyMappingsJar, Constants.Configurations.MAPPINGS_FINAL);
 
-		LoomGradleExtension extension = getExtension();
+		LoomExtension extension = getExtension();
 
 		if (extension.accessWidener != null) {
 			extension.addJarProcessor(new AccessWidenerJarProcessor(getProject()));

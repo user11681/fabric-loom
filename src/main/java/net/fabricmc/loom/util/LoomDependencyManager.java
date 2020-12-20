@@ -38,7 +38,7 @@ import org.gradle.api.artifacts.DependencySet;
 import org.gradle.api.artifacts.ExternalModuleDependency;
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
 
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 import net.fabricmc.loom.providers.MappingsProvider;
 import net.fabricmc.loom.util.DependencyProvider.DependencyInfo;
 
@@ -83,7 +83,7 @@ public class LoomDependencyManager {
 		MappingsProvider mappingsProvider = null;
 
 		project.getLogger().lifecycle(":setting up loom dependencies");
-		LoomGradleExtension extension = project.getExtensions().getByType(LoomGradleExtension.class);
+		LoomExtension extension = project.getExtensions().getByType(LoomExtension.class);
 		Map<String, ProviderList> providerListMap = new HashMap<>();
 		List<ProviderList> targetProviders = new ArrayList<>();
 
@@ -170,7 +170,7 @@ public class LoomDependencyManager {
 	}
 
 	private static void handleInstallerJson(JsonObject jsonObject, Project project) {
-		LoomGradleExtension extension = project.getExtensions().getByType(LoomGradleExtension.class);
+		LoomExtension extension = project.getExtensions().getByType(LoomExtension.class);
 
 		JsonObject libraries = jsonObject.get("libraries").getAsJsonObject();
 		Configuration mcDepsConfig = project.getConfigurations().getByName(Constants.Configurations.MINECRAFT_DEPENDENCIES);

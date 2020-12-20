@@ -29,8 +29,8 @@ class EmptyBuildMojangFunctionalTest extends Specification {
 	def "empty build succeeds using Minecraft #mcVersion"() {
 		given:
 		settingsFile << genSettingsFile("empty-build-functional-test")
-		propsFile << genPropsFile(mcVersion, "nope", loaderVersion, fabricVersion)
-		buildFile << genBuildFile("minecraft.officialMojangMappings()")
+		propsFile << BuildUtils.genPropsFile(mcVersion, "nope", loaderVersion, fabricVersion)
+		buildFile << BuildUtils.genBuildFile("minecraft.officialMojangMappings()")
 
 		when:
 		def result = GradleRunner.create()

@@ -30,7 +30,7 @@ import java.util.HashSet;
 
 import org.gradle.api.Project;
 
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 import net.fabricmc.loom.util.Constants;
 import net.fabricmc.loom.util.MinecraftVersionInfo;
 
@@ -42,7 +42,7 @@ public class MinecraftLibraryProvider {
 	public void provide(MinecraftProvider minecraftProvider, Project project) {
 		MinecraftVersionInfo versionInfo = minecraftProvider.getVersionInfo();
 
-		initFiles(project, minecraftProvider);
+		initFiles(project);
 
 		for (MinecraftVersionInfo.Library library : versionInfo.libraries) {
 			if (library.allowed() && !library.isNative() && library.getFile(MINECRAFT_LIBS) != null) {
@@ -64,8 +64,8 @@ public class MinecraftLibraryProvider {
 		return libs;
 	}
 
-	private void initFiles(Project project, MinecraftProvider minecraftProvider) {
-		LoomGradleExtension extension = project.getExtensions().getByType(LoomGradleExtension.class);
+	private void initFiles(Project project) {
+		LoomExtension extension = project.getExtensions().getByType(LoomExtension.class);
 		MINECRAFT_LIBS = new File(extension.getUserCache(), "libraries");
 	}
 }

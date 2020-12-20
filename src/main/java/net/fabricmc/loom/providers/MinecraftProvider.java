@@ -121,7 +121,7 @@ public class MinecraftProvider extends DependencyProvider {
 	private void downloadMcJson(boolean offline) throws IOException {
 		File manifests = new File(getExtension().getUserCache(), "version_manifest.json");
 
-		if (getExtension().isShareCaches() && !getExtension().isRootProject() && manifests.exists() && !isRefreshDeps()) {
+		if (getExtension().shareCaches && !getExtension().isRootProject() && manifests.exists() && !isRefreshDeps()) {
 			return;
 		}
 
@@ -151,7 +151,7 @@ public class MinecraftProvider extends DependencyProvider {
 			getProject().getLogger().lifecycle("Using custom minecraft manifest");
 		}
 
-		if (!optionalVersion.isPresent()) {
+		if (optionalVersion.isEmpty()) {
 			optionalVersion = mcManifest.versions.stream().filter(versions -> versions.id.equalsIgnoreCase(minecraftVersion)).findFirst();
 		}
 
@@ -176,7 +176,7 @@ public class MinecraftProvider extends DependencyProvider {
 	}
 
 	private void downloadJars(Logger logger) throws IOException {
-		if (getExtension().isShareCaches() && !getExtension().isRootProject() && minecraftClientJar.exists() && minecraftServerJar.exists() && !isRefreshDeps()) {
+		if (getExtension().shareCaches && !getExtension().isRootProject() && minecraftClientJar.exists() && minecraftServerJar.exists() && !isRefreshDeps()) {
 			return;
 		}
 

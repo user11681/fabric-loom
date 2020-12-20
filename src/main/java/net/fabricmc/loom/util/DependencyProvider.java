@@ -47,16 +47,16 @@ import org.gradle.api.artifacts.ResolvedDependency;
 import org.gradle.api.artifacts.SelfResolvingDependency;
 import org.zeroturnaround.zip.ZipUtil;
 
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 
 public abstract class DependencyProvider {
 	private LoomDependencyManager dependencyManager;
 	private final Project project;
-	private final LoomGradleExtension extension;
+	private final LoomExtension extension;
 
 	public DependencyProvider(Project project) {
 		this.project = project;
-		this.extension = project.getExtensions().getByType(LoomGradleExtension.class);
+		this.extension = project.getExtensions().getByType(LoomExtension.class);
 	}
 
 	public abstract void provide(DependencyInfo dependency, Consumer<Runnable> postPopulationScheduler) throws Exception;
@@ -87,7 +87,7 @@ public abstract class DependencyProvider {
 		return project;
 	}
 
-	public LoomGradleExtension getExtension() {
+	public LoomExtension getExtension() {
 		return extension;
 	}
 

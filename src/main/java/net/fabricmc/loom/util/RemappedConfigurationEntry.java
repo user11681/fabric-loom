@@ -61,7 +61,7 @@ public class RemappedConfigurationEntry {
 
 	public String getTargetConfiguration(ConfigurationContainer container) {
 		if (container.findByName(targetConfiguration) == null) {
-			return "compile";
+			return "api";
 		}
 
 		return targetConfiguration;

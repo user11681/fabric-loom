@@ -40,7 +40,7 @@ import org.gradle.api.Project;
 import org.gradle.api.artifacts.Dependency;
 import org.zeroturnaround.zip.ZipUtil;
 
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 import net.fabricmc.loom.providers.MappingsProvider;
 import net.fabricmc.loom.providers.LaunchProvider;
 import net.fabricmc.loom.util.progress.ProgressLogger;
@@ -152,7 +152,7 @@ public class SourceRemapper {
 			return this.mercury;
 		}
 
-		LoomGradleExtension extension = project.getExtensions().getByType(LoomGradleExtension.class);
+		LoomExtension extension = project.getExtensions().getByType(LoomExtension.class);
 		MappingsProvider mappingsProvider = extension.getMappingsProvider();
 
 		MappingSet mappings = extension.getOrCreateSrcMappingCache(toNamed ? 1 : 0, () -> {

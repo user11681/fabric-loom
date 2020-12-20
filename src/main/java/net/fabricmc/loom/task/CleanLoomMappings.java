@@ -29,14 +29,14 @@ import java.nio.file.Files;
 
 import org.gradle.api.tasks.TaskAction;
 
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 import net.fabricmc.loom.util.DeletingFileVisitor;
 
 public class CleanLoomMappings extends AbstractLoomTask {
 	@TaskAction
 	public void run() {
 		try {
-			LoomGradleExtension extension = getExtension();
+			LoomExtension extension = getExtension();
 			extension.getMappingsProvider().clean();
 			extension.getMinecraftMappedProvider().getIntermediaryJar().delete();
 			extension.getMinecraftMappedProvider().getMappedJar().delete();

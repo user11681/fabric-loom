@@ -36,7 +36,7 @@ import javax.inject.Inject;
 
 import org.gradle.api.tasks.TaskAction;
 
-import net.fabricmc.loom.LoomGradlePlugin;
+import net.fabricmc.loom.ProjectHandler;
 import net.fabricmc.loom.api.decompilers.DecompilationMetadata;
 import net.fabricmc.loom.api.decompilers.LoomDecompiler;
 import net.fabricmc.loom.util.LineNumberRemapper;
@@ -63,18 +63,18 @@ public class GenerateSourcesTask extends AbstractLoomTask {
 
 		DecompilationMetadata metadata = new DecompilationMetadata(threads, javaDocs, libraries);
 		Path compiledJar = getExtension().getMappingsProvider().mappedProvider.getMappedJar().toPath();
-		Path sourcesDestination = LoomGradlePlugin.getMappedByproduct(getProject(), "-sources.jar").toPath();
-		Path linemap = LoomGradlePlugin.getMappedByproduct(getProject(), "-sources.lmap").toPath();
+		Path sourcesDestination = ProjectHandler.getMappedByproduct(getProject(), "-sources.jar").toPath();
+		Path linemap = ProjectHandler.getMappedByproduct(getProject(), "-sources.lmap").toPath();
 		decompiler.decompile(compiledJar, sourcesDestination, linemap, metadata);
 
 		if (Files.exists(linemap)) {
-			Path linemappedJarDestination = LoomGradlePlugin.getMappedByproduct(getProject(), "-linemapped.jar").toPath();
+			Path linemappedJarDestination = ProjectHandler.getMappedByproduct(getProject(), "-linemapped.jar").toPath();
 
 			remapLineNumbers(compiledJar, linemap, linemappedJarDestination);
 
 			// In order for IDEs to recognize the new line mappings, we need to overwrite the existing compiled jar
 			// with the linemapped one. In the name of not destroying the existing jar, we will copy it to somewhere else.
-			Path unlinemappedJar = LoomGradlePlugin.getMappedByproduct(getProject(), "-unlinemapped.jar").toPath();
+			Path unlinemappedJar = ProjectHandler.getMappedByproduct(getProject(), "-unlinemapped.jar").toPath();
 
 			// The second time genSources is ran, we want to keep the existing unlinemapped jar.
 			if (!Files.exists(unlinemappedJar)) {

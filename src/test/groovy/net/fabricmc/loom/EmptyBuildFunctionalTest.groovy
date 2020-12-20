@@ -29,8 +29,8 @@ class EmptyBuildFunctionalTest extends Specification {
 	def "empty build succeeds using Minecraft #mcVersion"() {
 		given:
 		settingsFile << genSettingsFile("empty-build-functional-test")
-		propsFile << genPropsFile(mcVersion, yarnVersion, loaderVersion, fabricVersion)
-		buildFile << genBuildFile()
+		propsFile << BuildUtils.genPropsFile(mcVersion, yarnVersion, loaderVersion, fabricVersion)
+		buildFile << BuildUtils.genBuildFile()
 
 		when:
 		def result = GradleRunner.create()

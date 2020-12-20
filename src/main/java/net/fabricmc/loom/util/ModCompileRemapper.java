@@ -44,12 +44,12 @@ import org.gradle.api.logging.Logger;
 import org.gradle.jvm.JvmLibrary;
 import org.gradle.language.base.artifact.SourcesArtifact;
 
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 import net.fabricmc.loom.processors.dependency.ModDependencyInfo;
 import net.fabricmc.loom.processors.dependency.RemapData;
 
 public class ModCompileRemapper {
-	public static void remapDependencies(Project project, String mappingsSuffix, LoomGradleExtension extension, SourceRemapper sourceRemapper) {
+	public static void remapDependencies(Project project, String mappingsSuffix, LoomExtension extension, SourceRemapper sourceRemapper) {
 		Logger logger = project.getLogger();
 		DependencyHandler dependencies = project.getDependencies();
 		boolean refreshDeps = project.getGradle().getStartParameter().isRefreshDependencies();

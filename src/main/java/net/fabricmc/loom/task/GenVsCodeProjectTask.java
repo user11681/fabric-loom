@@ -36,7 +36,7 @@ import org.apache.commons.io.FileUtils;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.TaskAction;
 
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 import net.fabricmc.loom.util.RunConfig;
 
 // Recommended vscode plugins:
@@ -47,7 +47,7 @@ public class GenVsCodeProjectTask extends AbstractLoomTask {
 	@TaskAction
 	public void genRuns() {
 		Project project = getProject();
-		LoomGradleExtension extension = getExtension();
+		LoomExtension extension = getExtension();
 		File projectDir = project.file(".vscode");
 
 		if (!projectDir.exists()) {

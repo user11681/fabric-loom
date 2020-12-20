@@ -1,171 +1,136 @@
 plugins {
-	id 'java'
-	id 'maven-publish'
-	id 'java-gradle-plugin'
-	id 'idea'
-	id 'eclipse'
-	id 'groovy'
-	id 'checkstyle'
+	id("maven-publish")
+	id("java-gradle-plugin")
+	id("idea")
+	id("eclipse")
+	id("groovy")
+	id("com.jfrog.bintray").version("1.8.5")
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 15
+targetCompatibility = 15
 
-group = 'net.fabricmc'
-archivesBaseName = project.name
-def baseVersion = '0.5'
+project.group = "user11681"
+project.version = "SNAPSHOT"
 
-def build = 'local'
-def ENV = System.getenv()
-if (ENV.BUILD_NUMBER) {
-	build = "release #${ENV.BUILD_NUMBER}"
-	version = baseVersion + '.' + ENV.BUILD_NUMBER
-} else {
-	version = baseVersion + '.local'
+gradlePlugin {
+	plugins {
+		loom {
+			id = "loom"
+			implementationClass = "net.fabricmc.loom.LoomPlugin"
+		}
+	}
 }
 
 repositories {
-	maven {
-		name = 'Fabric'
-		url = 'https://maven.fabricmc.net/'
-	}
-	mavenCentral()
+	jcenter()
+
+	maven {url = "https://maven.fabricmc.net/"}
+    maven {url = "https://dl.bintray.com/user11681/maven"}
 }
 
 dependencies {
-	implementation gradleApi()
+	implementation(gradleApi())
+
+	implementation("net.gudenau.lib:unsafe:+")
+	implementation("user11681:reflect:+")
+	implementation("com.jfrog.bintray.gradle:gradle-bintray-plugin:+")
 
 	// libraries
-	implementation ('commons-io:commons-io:2.6')
-	implementation ('org.zeroturnaround:zt-zip:1.13')
-	implementation ('com.google.code.gson:gson:2.8.5')
-	implementation ('com.google.guava:guava:28.0-jre')
+	implementation('commons-io:commons-io:2.6')
+	implementation('org.zeroturnaround:zt-zip:1.13')
+	implementation('com.google.code.gson:gson:2.8.5')
+	implementation('com.google.guava:guava:28.0-jre')
 
 	// game handling utils
-	implementation ('net.fabricmc:stitch:0.4.6+build.74') {
+	implementation('net.fabricmc:stitch:0.4.6+build.74') {
 		exclude module: 'enigma'
 	}
 
 	// tinyfile management
-	implementation ('net.fabricmc:tiny-remapper:0.3.0.70')
-	implementation ('net.fabricmc:tiny-mappings-parser:0.2.2.14')
+	implementation('net.fabricmc:tiny-remapper:0.3.0.70')
+	implementation('net.fabricmc:tiny-mappings-parser:0.2.2.14')
 
-	implementation 'net.fabricmc:access-widener:1.0.0'
+	implementation('net.fabricmc:access-widener:1.0.0')
 
-	implementation ('net.fabricmc:lorenz-tiny:2.0.0+build.2') {
+	implementation('net.fabricmc:lorenz-tiny:2.0.0+build.2') {
 		transitive = false
 	}
-	implementation ('org.cadixdev:lorenz-io-proguard:0.5.5')
+	implementation('org.cadixdev:lorenz-io-proguard:0.5.5')
 
 	// decompilers
-	implementation ('net.fabricmc:procyon-fabric-compilertools:0.5.35.13')
-	implementation ('org.jetbrains:intellij-fernflower:1.2.1.16')
-	implementation ('org.benf:cfr:0.150')
+	implementation('net.fabricmc:procyon-fabric-compilertools:0.5.35.13')
+	implementation('org.jetbrains:intellij-fernflower:1.2.1.16')
+	implementation('org.benf:cfr:0.150')
 
 	// source code remapping
-	implementation ('org.cadixdev:mercury:0.1.0-rc1')
+	implementation('org.cadixdev:mercury:0.1.0-rc1')
 
 	// Kapt integration
-	compileOnly('org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72')
+	compileOnly('org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.21')
 
 	// Testing
 	testImplementation(gradleTestKit())
 	testImplementation('org.spockframework:spock-core:1.3-groovy-2.4') {
-		exclude module: 'groovy-all'
+		exclude(module: "groovy-all")
 	}
+}
+
+java {
+	withSourcesJar()
 }
 
 jar {
 	manifest {
-		attributes 'Implementation-Version': version + ' Build(' + build + ')'
+		attributes('Implementation-Version': version + ' Build(' + build + ')')
 	}
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = 'sources'
-	from sourceSets.main.allSource
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
 	classifier = 'javadoc'
-	from javadoc.destinationDir
+
+	from(javadoc.destinationDir)
 }
 
-apply from: 'https://github.com/FabricMC/fabric-docs/raw/master/gradle/license.gradle'
+apply(from: 'https://github.com/FabricMC/fabric-docs/raw/master/gradle/license.gradle')
 
 license {
 	exclude '**/loom/util/DownloadUtil.java'
 }
 
-checkstyle {
-	configFile = file('checkstyle.xml')
-	toolVersion = '8.25'
-}
-
-checkstyleMain {
-	logging.setLevel(LogLevel.LIFECYCLE)
-}
-
-gradlePlugin {
-	plugins {
-		fabricLoom {
-			id = 'fabric-loom'
-			implementationClass = 'net.fabricmc.loom.LoomGradlePlugin'
-		}
-	}
-}
-
-import org.w3c.dom.Document
-import org.w3c.dom.Element
-import org.w3c.dom.Node
-
 publishing {
 	publications {
-		plugin(MavenPublication) { publication ->
-			groupId project.group
-			artifactId project.archivesBaseName
-			version project.version
+		maven(MavenPublication) {
+			artifactId = project.name
+			groupId = project.group
+			version = project.version
 
-			from components['java']
-
-			artifact sourcesJar
-			artifact javadocJar
-		}
-
-		// Also publish a snapshot so people can use the latest version if they wish
-		snapshot(MavenPublication) { publication ->
-			groupId project.group
-			artifactId project.archivesBaseName
-			version baseVersion + '-SNAPSHOT'
-
-			from components['java']
-
-			artifact sourcesJar
-			artifact javadocJar
-		}
-
-		// Manually crate the plugin marker for snapshot versions
-		snapshotPlugin(MavenPublication) { publication ->
-			groupId 'fabric-loom'
-			artifactId 'fabric-loom.gradle.plugin'
-			version baseVersion + '-SNAPSHOT'
-
-			pom.withXml({
-				// Based off org.gradle.plugin.devel.plugins.MavenPluginPublishPlugin
-				Element root = asElement()
-				Document document = root.getOwnerDocument()
-				Node dependencies = root.appendChild(document.createElement('dependencies'))
-				Node dependency = dependencies.appendChild(document.createElement('dependency'))
-				Node groupId = dependency.appendChild(document.createElement('groupId'))
-				groupId.setTextContent('net.fabricmc')
-				Node artifactId = dependency.appendChild(document.createElement('artifactId'))
-				artifactId.setTextContent('fabric-loom')
-				Node version = dependency.appendChild(document.createElement('version'))
-				version.setTextContent(baseVersion + '-SNAPSHOT')
-			})
+			artifact(jar)
+			artifact(sourcesJar)
 		}
 	}
+
 	repositories {
 		mavenLocal()
+	}
+}
+
+bintray {
+	user = System.getenv("BINTRAY_USER")
+	key = System.getenv("BINTRAY_API_KEY")
+	publications = ["maven"]
+	publish = true
+
+	pkg {
+		repo = "maven"
+		name = project.name
+		licenses = ["LGPL-3.0"]
+		vcsUrl = "https://github.com/user11681/${project.name}.git"
+
+		version {
+			name = project.version
+			released = new Date()
+			issueTrackerUrl = "https://github.com/user11681/${project.name}/issues"
+		}
 	}
 }

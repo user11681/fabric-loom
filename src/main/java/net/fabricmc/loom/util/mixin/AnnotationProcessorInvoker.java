@@ -39,7 +39,7 @@ import org.gradle.api.plugins.JavaPluginConvention;
 import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.TaskCollection;
 
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 import net.fabricmc.loom.util.Constants;
 
 /**
@@ -64,13 +64,13 @@ public abstract class AnnotationProcessorInvoker<T extends Task> {
 
 	protected abstract File getDestinationDir(T task);
 
-	protected final String getRefmapDestination(T task, LoomGradleExtension extension) throws IOException {
+	protected final String getRefmapDestination(T task, LoomExtension extension) throws IOException {
 		return new File(getDestinationDir(task), extension.getRefmapName()).getCanonicalPath();
 	}
 
 	private void passMixinArguments(T task) {
 		try {
-			LoomGradleExtension extension = project.getExtensions().getByType(LoomGradleExtension.class);
+			LoomExtension extension = project.getExtensions().getByType(LoomExtension.class);
 			Map<String, String> args = new HashMap<String, String>() {{
 					put(Constants.MixinArguments.IN_MAP_FILE_NAMED_INTERMEDIARY, extension.getMappingsProvider().tinyMappings.getCanonicalPath());
 					put(Constants.MixinArguments.OUT_MAP_FILE_NAMED_INTERMEDIARY, extension.getNextMixinMappings().getCanonicalPath());
@@ -87,7 +87,7 @@ public abstract class AnnotationProcessorInvoker<T extends Task> {
 
 	public void configureMixin() {
 		ConfigurationContainer configs = project.getConfigurations();
-		LoomGradleExtension extension = project.getExtensions().getByType(LoomGradleExtension.class);
+		LoomExtension extension = project.getExtensions().getByType(LoomExtension.class);
 
 		if (!extension.ideSync()) {
 			for (Configuration processorConfig : annotationProcessorConfigurations) {

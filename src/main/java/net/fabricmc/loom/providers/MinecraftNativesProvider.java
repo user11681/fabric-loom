@@ -32,13 +32,13 @@ import org.gradle.api.GradleException;
 import org.zeroturnaround.zip.ZipUtil;
 import org.gradle.api.Project;
 
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 import net.fabricmc.loom.util.DownloadUtil;
 import net.fabricmc.loom.util.MinecraftVersionInfo;
 
 public class MinecraftNativesProvider {
 	public static void provide(MinecraftProvider minecraftProvider, Project project) throws IOException {
-		LoomGradleExtension extension = project.getExtensions().getByType(LoomGradleExtension.class);
+		LoomExtension extension = project.getExtensions().getByType(LoomExtension.class);
 		MinecraftVersionInfo versionInfo = minecraftProvider.getVersionInfo();
 		boolean offline = project.getGradle().getStartParameter().isOffline();
 

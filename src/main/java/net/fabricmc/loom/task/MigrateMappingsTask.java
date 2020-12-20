@@ -48,7 +48,7 @@ import org.gradle.api.plugins.JavaPluginConvention;
 import org.gradle.api.tasks.TaskAction;
 import org.gradle.api.tasks.options.Option;
 
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 import net.fabricmc.loom.providers.MappingsProvider;
 import net.fabricmc.loom.providers.MinecraftMappedProvider;
 import net.fabricmc.loom.util.SourceRemapper;
@@ -85,7 +85,7 @@ public class MigrateMappingsTask extends AbstractLoomTask {
 	@TaskAction
 	public void doTask() throws Throwable {
 		Project project = getProject();
-		LoomGradleExtension extension = getExtension();
+		LoomExtension extension = getExtension();
 
 		project.getLogger().lifecycle(":loading mappings");
 
@@ -119,7 +119,7 @@ public class MigrateMappingsTask extends AbstractLoomTask {
 
 		try {
 			if (mappings.startsWith(MojangMappingsDependency.GROUP + ':' + MojangMappingsDependency.MODULE + ':') || mappings.startsWith("net.mojang.minecraft:mappings:")) {
-				if (!mappings.endsWith(":" + project.getExtensions().getByType(LoomGradleExtension.class).getMinecraftProvider().getMinecraftVersion())) {
+				if (!mappings.endsWith(":" + project.getExtensions().getByType(LoomExtension.class).getMinecraftProvider().getMinecraftVersion())) {
 					throw new UnsupportedOperationException("Migrating Mojang mappings is currently only supported for the specified minecraft version");
 				}
 

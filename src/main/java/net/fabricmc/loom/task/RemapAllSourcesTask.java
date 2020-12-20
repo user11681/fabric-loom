@@ -35,4 +35,9 @@ public class RemapAllSourcesTask extends AbstractLoomTask {
 	public SourceRemapper getSourceRemapper() {
 		return sourceRemapper;
 	}
+
+    @Internal
+    public SourceRemapper setSourceRemapper() {
+        return sourceRemapper;
+    }
 }

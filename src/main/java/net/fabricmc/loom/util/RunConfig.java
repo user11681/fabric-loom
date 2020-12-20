@@ -24,8 +24,6 @@
 
 package net.fabricmc.loom.util;
 
-import static net.fabricmc.loom.AbstractPlugin.isRootProject;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,13 +39,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.gradle.api.Project;
+import org.gradle.plugins.ide.eclipse.model.EclipseModel;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.gradle.api.Project;
-import org.gradle.plugins.ide.eclipse.model.EclipseModel;
 
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.ProjectHandler;
 
 public class RunConfig {
 	public String configName;
@@ -104,11 +103,11 @@ public class RunConfig {
 		return module;
 	}
 
-	private static void populate(Project project, LoomGradleExtension extension, RunConfig runConfig, String mode) {
-		runConfig.configName += isRootProject(project) ? "" : " (" + project.getPath() + ")";
+	private static void populate(Project project, LoomExtension extension, RunConfig runConfig, String mode) {
+		runConfig.configName += ProjectHandler.isRootProject(project) ? "" : " (" + project.getPath() + ")";
 		runConfig.eclipseProjectName = project.getExtensions().getByType(EclipseModel.class).getProject().getName();
 		runConfig.ideaModuleName = getIdeaModuleName(project);
-		runConfig.runDir = "file://$PROJECT_DIR$/" + extension.runDir;
+		runConfig.runDir = "file://" + extension.runDir;
 		runConfig.vmArgs = "";
 
 		if ("launchwrapper".equals(extension.getLoaderLaunchMethod())) {
@@ -151,7 +150,7 @@ public class RunConfig {
 	}
 
 	public static RunConfig clientRunConfig(Project project) {
-		LoomGradleExtension extension = project.getExtensions().getByType(LoomGradleExtension.class);
+		LoomExtension extension = project.getExtensions().getByType(LoomExtension.class);
 
 		RunConfig ideaClient = new RunConfig();
 		ideaClient.configName = "Minecraft Client";
@@ -163,7 +162,7 @@ public class RunConfig {
 	}
 
 	public static RunConfig serverRunConfig(Project project) {
-		LoomGradleExtension extension = project.getExtensions().getByType(LoomGradleExtension.class);
+		LoomExtension extension = project.getExtensions().getByType(LoomExtension.class);
 
 		RunConfig ideaServer = new RunConfig();
 		ideaServer.configName = "Minecraft Server";
@@ -204,7 +203,7 @@ public class RunConfig {
 		return "";
 	}
 
-	private static String getMainClass(String side, LoomGradleExtension extension) {
+	private static String getMainClass(String side, LoomExtension extension) {
 		JsonObject installerJson = extension.getInstallerJson();
 
 		if (installerJson != null && installerJson.has("mainClass")) {

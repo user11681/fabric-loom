@@ -57,7 +57,7 @@ import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.tasks.bundling.AbstractArchiveTask;
 
-import net.fabricmc.loom.LoomGradleExtension;
+import net.fabricmc.loom.LoomExtension;
 import net.fabricmc.loom.task.RemapJarTask;
 
 public class NestedJars {
@@ -186,7 +186,7 @@ public class NestedJars {
 		for (File file : files) {
 			//A lib that doesnt have a mod.json, we turn it into a fake mod
 			if (!ZipUtil.containsEntry(file, "fabric.mod.json")) {
-				LoomGradleExtension extension = project.getExtensions().getByType(LoomGradleExtension.class);
+				LoomExtension extension = project.getExtensions().getByType(LoomExtension.class);
 				File tempDir = new File(extension.getUserCache(), "temp/modprocessing");
 
 				if (!tempDir.exists()) {

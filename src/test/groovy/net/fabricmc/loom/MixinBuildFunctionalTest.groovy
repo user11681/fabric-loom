@@ -44,8 +44,8 @@ class MixinBuildFunctionalTest extends Specification {
 	def "mixin build succeeds using Minecraft #mcVersion"() {
 		given:
 		settingsFile << genSettingsFile("mixin-build-functional-test")
-		propsFile << genPropsFile(mcVersion, yarnVersion, loaderVersion, fabricVersion)
-		buildFile << genBuildFile()
+		propsFile << BuildUtils.genPropsFile(mcVersion, yarnVersion, loaderVersion, fabricVersion)
+		buildFile << BuildUtils.genBuildFile()
 		modJsonFile << genModJsonFile()
 		modJavaFile << genModJavaFile()
 		modMixinsJsonFile << genModMixinsJsonFile()
