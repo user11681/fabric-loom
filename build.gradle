@@ -33,7 +33,7 @@ dependencies {
 	implementation(gradleApi())
 
 	implementation("net.gudenau.lib:unsafe:+")
-	implementation("user11681:reflect:+")
+	implementation("user11681:reflect:1.2.0")
 	implementation("com.jfrog.bintray.gradle:gradle-bintray-plugin:+")
 
 	// libraries

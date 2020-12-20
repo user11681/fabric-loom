@@ -256,9 +256,9 @@ public class ProjectHandler {
         this.plugins.apply(BintrayPlugin.class);
 
         this.extensions.add("minecraft", this.extension);
-        this.extensions.create("fabricApi", FabricApiExtension.class, project);
+        this.extensions.create("fabricApi", FabricApiExtension.class, this.project);
 
-//        this.repositories.mavenLocal();
+        this.repositories.mavenLocal();
         this.repositories.mavenCentral();
         this.repositories.jcenter();
 
@@ -691,13 +691,13 @@ public class ProjectHandler {
 
         new JavaApInvoker(this.project).configureMixin();
 
-        if (this.project.getPluginManager().hasPlugin("scala")) {
+        if (this.pluginManager.hasPlugin("scala")) {
             this.logger.info("Configuring compiler arguments for Scala");
 
             new ScalaApInvoker(this.project).configureMixin();
         }
 
-        if (this.project.getPluginManager().hasPlugin("org.jetbrains.kotlin.kapt")) {
+        if (this.pluginManager.hasPlugin("org.jetbrains.kotlin.kapt")) {
             this.logger.info("Configuring compiler arguments for Kapt plugin");
 
             new KaptApInvoker(this.project).configureMixin();
