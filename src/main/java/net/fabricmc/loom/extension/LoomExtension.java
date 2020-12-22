@@ -139,6 +139,7 @@ public class LoomExtension {
         new DependencyEntry("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:+").key("cardinalcomponentsentity").repository("ladysnake"),
         new DependencyEntry("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-item:+").key("cardinalcomponentsitem").repository("ladysnake"),
         new DependencyEntry("user11681:cell:+").key("cell").repository("user11681"),
+        new DependencyEntry("curse.maven:charm-318872:3140951").key("charm").repository("cursemaven"),
         new DependencyEntry("me.shedaniel.cloth:config-2:+").key("clothconfig"),
         new DependencyEntry("io.github.cottonmc:cotton-resources:+").key("cottonresources").repository("boundarybreaker"),
         new DependencyEntry("user11681:commonformatting:+").key("commonformatting").repository("user11681"),
