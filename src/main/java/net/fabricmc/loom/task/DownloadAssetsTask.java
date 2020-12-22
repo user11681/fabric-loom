@@ -29,7 +29,7 @@ import java.io.IOException;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.TaskAction;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.providers.MinecraftAssetsProvider;
 import net.fabricmc.loom.providers.MinecraftNativesProvider;
 

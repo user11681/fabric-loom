@@ -47,7 +47,7 @@ import org.gradle.api.artifacts.ResolvedDependency;
 import org.gradle.api.artifacts.SelfResolvingDependency;
 import org.zeroturnaround.zip.ZipUtil;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 
 public abstract class DependencyProvider {
 	private LoomDependencyManager dependencyManager;

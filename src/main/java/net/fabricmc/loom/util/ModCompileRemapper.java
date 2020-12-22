@@ -44,7 +44,7 @@ import org.gradle.api.logging.Logger;
 import org.gradle.jvm.JvmLibrary;
 import org.gradle.language.base.artifact.SourcesArtifact;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.processors.dependency.ModDependencyInfo;
 import net.fabricmc.loom.processors.dependency.RemapData;
 

@@ -31,7 +31,7 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.FileUtils;
 import org.gradle.api.Project;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.providers.MinecraftAssetsProvider;
 import net.fabricmc.loom.providers.MinecraftNativesProvider;
 
@@ -51,7 +51,7 @@ public class SetupIntelijRunConfigs {
 			throw new RuntimeException("Failed to generate run configs", e);
 		}
 
-		File runDir = new File(project.getRootDir(), extension.runDir);
+		File runDir = extension.run.getFile();
 
 		if (!runDir.exists()) {
 			runDir.mkdirs();

@@ -38,7 +38,7 @@ import org.gradle.api.artifacts.DependencySet;
 import org.gradle.api.artifacts.ExternalModuleDependency;
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.providers.MappingsProvider;
 import net.fabricmc.loom.util.DependencyProvider.DependencyInfo;
 

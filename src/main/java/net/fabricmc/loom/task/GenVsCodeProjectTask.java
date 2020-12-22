@@ -36,7 +36,7 @@ import org.apache.commons.io.FileUtils;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.TaskAction;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.util.RunConfig;
 
 // Recommended vscode plugins:
@@ -73,7 +73,7 @@ public class GenVsCodeProjectTask extends AbstractLoomTask {
 			throw new RuntimeException("Failed to write launch.json", e);
 		}
 
-		File runDir = new File(project.getRootDir(), extension.runDir);
+		File runDir = extension.run.getFile();
 
 		if (!runDir.exists()) {
 			runDir.mkdirs();

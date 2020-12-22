@@ -45,9 +45,10 @@ import org.gradle.api.Project;
 import org.gradle.api.tasks.TaskAction;
 
 import net.fabricmc.loom.ProjectHandler;
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.util.RunConfig;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class GenIdeaProjectTask extends AbstractLoomTask {
 	@TaskAction
 	public void genIdeaRuns() throws IOException, ParserConfigurationException, SAXException, TransformerException {
@@ -93,7 +94,7 @@ public class GenIdeaProjectTask extends AbstractLoomTask {
 		transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 		transformer.transform(source, result);
 
-		File runDir = new File(getProject().getRootDir(), extension.runDir);
+		File runDir = extension.run.getFile();
 
 		if (!runDir.exists()) {
 			runDir.mkdirs();

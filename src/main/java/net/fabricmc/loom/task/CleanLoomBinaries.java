@@ -29,7 +29,7 @@ import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 import org.gradle.api.tasks.TaskAction;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 
 public class CleanLoomBinaries extends AbstractLoomTask {
 	@TaskAction

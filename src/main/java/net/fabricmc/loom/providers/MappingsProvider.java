@@ -45,7 +45,7 @@ import org.zeroturnaround.zip.FileSource;
 import org.zeroturnaround.zip.ZipEntrySource;
 import org.zeroturnaround.zip.ZipUtil;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.processors.EnumWidenerJarProcessor;
 import net.fabricmc.loom.processors.JarProcessorManager;
 import net.fabricmc.loom.processors.MinecraftProcessedProvider;

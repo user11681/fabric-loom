@@ -30,7 +30,7 @@ import java.util.HashSet;
 
 import org.gradle.api.Project;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.util.Constants;
 import net.fabricmc.loom.util.MinecraftVersionInfo;
 

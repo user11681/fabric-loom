@@ -52,7 +52,7 @@ public class GenEclipseRunsTask extends AbstractLoomTask {
 			FileUtils.writeStringToFile(serverRunConfigs, serverRunConfig, StandardCharsets.UTF_8);
 		}
 
-		File runDir = new File(getProject().getRootDir(), getExtension().runDir);
+		File runDir = getExtension().run.getFile();
 
 		if (!runDir.exists()) {
 			runDir.mkdirs();

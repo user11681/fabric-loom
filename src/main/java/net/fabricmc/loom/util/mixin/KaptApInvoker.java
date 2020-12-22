@@ -40,7 +40,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.kotlin.gradle.internal.Kapt3GradleSubplugin;
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 
 public class KaptApInvoker extends AnnotationProcessorInvoker<JavaCompile> {
     private final KaptExtension kaptExtension = project.getExtensions().getByType(KaptExtension.class);

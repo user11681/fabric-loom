@@ -33,10 +33,12 @@ import java.util.function.Function;
 
 import org.gradle.api.Project;
 import org.gradle.api.tasks.JavaExec;
+import org.jetbrains.annotations.NotNull;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.util.RunConfig;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public abstract class AbstractRunTask extends JavaExec {
 	private final Function<Project, RunConfig> configProvider;
 	private RunConfig config;
@@ -86,13 +88,14 @@ public abstract class AbstractRunTask extends JavaExec {
 
 		args(argsSplit);
 		LoomExtension extension = this.getProject().getExtensions().getByType(LoomExtension.class);
-		setWorkingDir(new File(getProject().getRootDir(), extension.runDir));
+
+        setWorkingDir(extension.run.getFile());
 
 		super.exec();
 	}
 
 	@Override
-	public void setWorkingDir(File dir) {
+	public void setWorkingDir(@NotNull File dir) {
 		if (config == null) {
 			config = configProvider.apply(getProject());
 		}

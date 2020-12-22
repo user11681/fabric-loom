@@ -42,7 +42,7 @@ import org.gradle.api.tasks.TaskAction;
 import org.gradle.jvm.tasks.Jar;
 import org.zeroturnaround.zip.ZipUtil;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.providers.MappingsProvider;
 import net.fabricmc.loom.util.GradleSupport;
 import net.fabricmc.loom.util.MixinRefmapHelper;

@@ -39,7 +39,7 @@ import com.google.gson.Gson;
 import org.gradle.api.GradleException;
 import org.gradle.api.Project;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.util.Checksum;
 import net.fabricmc.loom.util.Constants;
 import net.fabricmc.loom.util.DownloadUtil;

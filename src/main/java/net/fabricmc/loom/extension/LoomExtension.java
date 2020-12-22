@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package net.fabricmc.loom;
+package net.fabricmc.loom.extension;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -51,7 +51,7 @@ import org.gradle.api.artifacts.Dependency;
 import org.gradle.api.file.ConfigurableFileCollection;
 import org.gradle.api.plugins.BasePluginConvention;
 
-import net.fabricmc.loom.api.decompilers.LoomDecompiler;
+import net.fabricmc.loom.ProjectHandler;
 import net.fabricmc.loom.dependency.DependencyContainer;
 import net.fabricmc.loom.dependency.DependencyEntry;
 import net.fabricmc.loom.processors.JarProcessor;
@@ -62,15 +62,14 @@ import net.fabricmc.loom.providers.MinecraftProvider;
 import net.fabricmc.loom.util.LoomDependencyManager;
 import net.fabricmc.loom.util.mappings.MojangMappingsDependency;
 
-@SuppressWarnings({"ConstantConditions", "ResultOfMethodCallIgnored", "SuspiciousMethodCalls"})
+@SuppressWarnings({"ConstantConditions", "ResultOfMethodCallIgnored"})
 public class LoomExtension {
-    public String runDir = "$PROJECT_DIR$/run";
     public String refmapName;
     public String loaderLaunchMethod;
-    public String customManifest = null;
-    public File accessWidener = null;
+    public String customManifest;
+    public File accessWidener;
     public List<String> enumWidener = new ArrayList<>();
-    public Function<String, Object> intermediaryUrl = (String mcVer) -> "https://maven.fabricmc.net/net/fabricmc/intermediary/" + mcVer + "/intermediary-" + mcVer + "-v2.jar";
+    public Function<String, Object> intermediaryUrl = (String mcVer) -> String.format("https://maven.fabricmc.net/net/fabricmc/intermediary/%s/intermediary-%s-v2.jar", mcVer, mcVer);
 
     public String minecraftVersion;
     public String yarnBuild;
@@ -82,17 +81,18 @@ public class LoomExtension {
     public boolean noSpam = true;
     public boolean publish = true;
     public boolean bintray = true;
-    public boolean shareRun = true;
     public boolean shareCaches;
 
+    public final RunDirectory run;
+
     // Not to be set in the build.gradle
-    private final Project project;
+    public final Project project;
+
     private final ConfigurableFileCollection unmappedMods;
     private final List<JarProcessor> jarProcessors = new ArrayList<>();
     private final MappingSet[] srcMappingCache = new MappingSet[2];
     private final Mercury[] srcMercuryCache = new Mercury[2];
     private final Set<File> mixinMappings = Collections.synchronizedSet(new HashSet<>());
-    final List<LoomDecompiler> decompilers = new ArrayList<>();
 
     private LoomDependencyManager dependencyManager;
     private JarProcessorManager jarProcessorManager;
@@ -144,7 +144,7 @@ public class LoomExtension {
         new DependencyEntry("user11681:commonformatting:+").key("commonformatting").repository("user11681"),
         new DependencyEntry("user11681:dynamicentry:+").key("dynamicentry").repository("user11681"),
         new DependencyEntry("com.github.Chocohead:Fabric-ASM:master-SNAPSHOT").key("fabricasm").repository("jitpack"),
-        new DependencyEntry("user11681:fabricasmtools:+").key("fabricasmtools").repository("user11681"),
+        new DependencyEntry("user11681:fabricasmtools:+").key("huntinghamhills").repository("user11681"),
         new DependencyEntry("net.devtech:grossfabrichacks:+").key("gfh").repository("grossfabrichackers"),
         new DependencyEntry("user11681:invisiblelivingentities:+").key("invisiblelivingentities").repository("user11681"),
         new DependencyEntry("com.github.javaparser:javaparser-symbol-solver-core:+").key("javaparser"),
@@ -171,6 +171,7 @@ public class LoomExtension {
     public LoomExtension(Project project) {
         this.project = project;
         this.unmappedMods = project.files();
+        this.run = new RunDirectory(this);
     }
 
     private static String sanitize(String key) {
@@ -191,14 +192,6 @@ public class LoomExtension {
 
     public void setJavaVersion(Object version) {
         this.javaVersion = JavaVersion.toVersion(version);
-    }
-
-    /**
-     * Loom will generate a new genSources task (with a new name, based off of {@link LoomDecompiler#name()})
-     * that uses the specified decompiler instead.
-     */
-    public void addDecompiler(LoomDecompiler decompiler) {
-        decompilers.add(decompiler);
     }
 
     /**

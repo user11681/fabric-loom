@@ -53,7 +53,7 @@ import org.zeroturnaround.zip.ByteSource;
 import org.zeroturnaround.zip.ZipEntrySource;
 import org.zeroturnaround.zip.ZipUtil;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.util.DownloadUtil;
 import net.fabricmc.loom.util.MinecraftVersionInfo;
 import net.fabricmc.lorenztiny.TinyMappingsReader;

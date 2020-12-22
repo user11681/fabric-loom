@@ -16,7 +16,7 @@ import org.gradle.internal.typeconversion.NotationParser;
 import org.jetbrains.annotations.NotNull;
 import user11681.reflect.Classes;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.ProjectHandler;
 
 public class LoomDependencyFactory extends DefaultDependencyFactory {
@@ -44,13 +44,13 @@ public class LoomDependencyFactory extends DefaultDependencyFactory {
     @Override
     public Dependency createDependency(@NotNull Object dependencyNotation) {
         if (dependencyNotation instanceof String) {
-            return super.createDependency(this.resolve((String) dependencyNotation));
+            return super.createDependency(resolve((String) dependencyNotation));
         }
 
         return super.createDependency(dependencyNotation);
     }
 
-    private Object resolve(String dependency) {
+    private static Object resolve(String dependency) {
         String[] components = dependency.split(":");
 
         if (components.length == 2) {
@@ -88,5 +88,4 @@ public class LoomDependencyFactory extends DefaultDependencyFactory {
 
         return dependency;
     }
-
 }

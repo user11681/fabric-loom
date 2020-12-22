@@ -1,6 +1,5 @@
 package net.fabricmc.loom.repository;
 
-import net.gudenau.lib.unsafe.Unsafe;
 import org.gradle.api.artifacts.repositories.AuthenticationContainer;
 import org.gradle.api.internal.FeaturePreviews;
 import org.gradle.api.internal.artifacts.ivyservice.ivyresolve.parser.GradleModuleMetadataParser;
@@ -23,7 +22,7 @@ import org.gradle.internal.resource.local.FileStore;
 import org.gradle.internal.resource.local.LocallyAvailableResourceFinder;
 import user11681.reflect.Classes;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 
 public class LoomMavenArtifactRepository extends DefaultMavenArtifactRepository {
     public static final long classPointer = Classes.getClassPointer(LoomMavenArtifactRepository.class);

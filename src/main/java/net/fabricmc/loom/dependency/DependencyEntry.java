@@ -2,7 +2,7 @@ package net.fabricmc.loom.dependency;
 
 import java.util.Set;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 
 public class DependencyEntry {
     public final String artifact;

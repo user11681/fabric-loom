@@ -32,7 +32,7 @@ import org.gradle.api.GradleException;
 import org.zeroturnaround.zip.ZipUtil;
 import org.gradle.api.Project;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.util.DownloadUtil;
 import net.fabricmc.loom.util.MinecraftVersionInfo;
 

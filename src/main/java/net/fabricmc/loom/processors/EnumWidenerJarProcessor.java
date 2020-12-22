@@ -32,7 +32,7 @@ import org.gradle.api.Project;
 import org.zeroturnaround.zip.ZipUtil;
 import org.zeroturnaround.zip.transform.ZipEntryTransformerEntry;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.util.enumwidener.EnumWidenerTransformerEntry;
 
 public class EnumWidenerJarProcessor implements JarProcessor {

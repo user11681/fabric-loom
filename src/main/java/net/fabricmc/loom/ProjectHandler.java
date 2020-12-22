@@ -29,6 +29,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -43,6 +44,9 @@ import java.util.regex.Pattern;
 import com.jfrog.bintray.gradle.BintrayExtension;
 import com.jfrog.bintray.gradle.BintrayPlugin;
 import groovy.util.Node;
+
+import net.fabricmc.loom.extension.LoomExtension;
+
 import net.gudenau.lib.unsafe.Unsafe;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
@@ -151,6 +155,8 @@ public class ProjectHandler {
     public final Gradle gradle;
     public final ScriptHandler buildScript;
     public final LoomExtension extension;
+
+    private final List<LoomDecompiler> decompilers = new ArrayList<>();
 
     public ProjectHandler(Project project) {
         this.project = project;
@@ -273,8 +279,8 @@ public class ProjectHandler {
         this.configureCompile();
         this.registerTasks();
 
-        this.extension.addDecompiler(new FabricFernFlowerDecompiler(project));
-        this.extension.addDecompiler(new FabricCFRDecompiler(project));
+        this.decompilers.add(new FabricFernFlowerDecompiler(project));
+        this.decompilers.add(new FabricCFRDecompiler(project));
     }
 
     private void registerTasks() {
@@ -434,10 +440,6 @@ public class ProjectHandler {
             this.dependencies.add("modApi", "noauth");
         }
 
-        if (this.extension.shareRun) {
-            this.extension.runDir = this.extension.getUserCache().toString() + File.separator + "run";
-        }
-
         for (JavaCompile task : this.tasks.withType(JavaCompile.class)) {
             task.getOptions().setEncoding("UTF-8");
 
@@ -508,11 +510,11 @@ public class ProjectHandler {
             }
         }
 
-        for (LoomDecompiler decompiler : extension.decompilers) {
+        for (LoomDecompiler decompiler : this.decompilers) {
             String taskName = decompiler instanceof FabricFernFlowerDecompiler ? "genSources" : "genSourcesWith" + decompiler.name();
 
             // decompiler will be passed to the constructor of GenerateSourcesTask
-            tasks.register(taskName, GenerateSourcesTask.class, decompiler);
+            this.tasks.register(taskName, GenerateSourcesTask.class, decompiler);
         }
 
         this.configureMaven();

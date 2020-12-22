@@ -52,7 +52,7 @@ import net.fabricmc.accesswidener.AccessWidenerReader;
 import net.fabricmc.accesswidener.AccessWidenerRemapper;
 import net.fabricmc.accesswidener.AccessWidenerVisitor;
 import net.fabricmc.accesswidener.AccessWidenerWriter;
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.processors.Environment;
 import net.fabricmc.loom.processors.JarProcessor;
 import net.fabricmc.loom.util.Checksum;

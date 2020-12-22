@@ -45,7 +45,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.ProjectHandler;
 
 public class RunConfig {
@@ -107,7 +107,7 @@ public class RunConfig {
 		runConfig.configName += ProjectHandler.isRootProject(project) ? "" : " (" + project.getPath() + ")";
 		runConfig.eclipseProjectName = project.getExtensions().getByType(EclipseModel.class).getProject().getName();
 		runConfig.ideaModuleName = getIdeaModuleName(project);
-		runConfig.runDir = "file://" + extension.runDir;
+		runConfig.runDir = "file://" + extension.run;
 		runConfig.vmArgs = "";
 
 		if ("launchwrapper".equals(extension.getLoaderLaunchMethod())) {

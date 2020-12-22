@@ -57,7 +57,7 @@ import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.tasks.bundling.AbstractArchiveTask;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.task.RemapJarTask;
 
 public class NestedJars {

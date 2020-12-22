@@ -29,7 +29,7 @@ import java.nio.file.Files;
 
 import org.gradle.api.tasks.TaskAction;
 
-import net.fabricmc.loom.LoomExtension;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.util.DeletingFileVisitor;
 
 public class CleanLoomMappings extends AbstractLoomTask {
