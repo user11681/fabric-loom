@@ -49,6 +49,9 @@ import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.ProjectHandler;
 
 public class RunConfig {
+    public final Project project;
+    public final LoomExtension extension;
+
 	public String configName;
 	public String eclipseProjectName;
 	public String ideaModuleName;
@@ -56,6 +59,11 @@ public class RunConfig {
 	public String runDir;
 	public String vmArgs;
 	public String programArgs;
+
+	public RunConfig(Project project) {
+	    this.project = project;
+	    this.extension = project.getExtensions().getByType(LoomExtension.class);
+    }
 
 	public Element genRuns(Element doc) {
 		Element root = this.addXml(doc, "component", ImmutableMap.of("name", "ProjectRunConfigurationManager"));
@@ -152,7 +160,7 @@ public class RunConfig {
 	public static RunConfig clientRunConfig(Project project) {
 		LoomExtension extension = project.getExtensions().getByType(LoomExtension.class);
 
-		RunConfig ideaClient = new RunConfig();
+		RunConfig ideaClient = new RunConfig(project);
 		ideaClient.configName = "Minecraft Client";
 		populate(project, extension, ideaClient, "client");
 		ideaClient.vmArgs += getOSClientJVMArgs();
@@ -164,7 +172,7 @@ public class RunConfig {
 	public static RunConfig serverRunConfig(Project project) {
 		LoomExtension extension = project.getExtensions().getByType(LoomExtension.class);
 
-		RunConfig ideaServer = new RunConfig();
+		RunConfig ideaServer = new RunConfig(project);
 		ideaServer.configName = "Minecraft Server";
 		populate(project, extension, ideaServer, "server");
 		ideaServer.vmArgs += " -Dfabric.dli.main=" + getMainClass("server", extension);
@@ -179,20 +187,16 @@ public class RunConfig {
 	}
 
 	public String fromDummy(String dummy) throws IOException {
-		String dummyConfig;
-
 		try (InputStream input = SetupIntelijRunConfigs.class.getClassLoader().getResourceAsStream(dummy)) {
-			dummyConfig = IOUtils.toString(input, StandardCharsets.UTF_8);
+			return IOUtils.toString(input, StandardCharsets.UTF_8)
+                .replace("%NAME%", configName)
+                .replace("%MAIN_CLASS%", mainClass)
+                .replace("%ECLIPSE_PROJECT%", eclipseProjectName)
+                .replace("%IDEA_MODULE%", ideaModuleName)
+                .replace("%PROGRAM_ARGS%", programArgs.replaceAll("\"", "&quot;"))
+                .replace("%VM_ARGS%", vmArgs.replaceAll("\"", "&quot;"))
+                .replace("%RUN_DIRECTORY%", this.extension.run.toString());
 		}
-
-		dummyConfig = dummyConfig.replace("%NAME%", configName);
-		dummyConfig = dummyConfig.replace("%MAIN_CLASS%", mainClass);
-		dummyConfig = dummyConfig.replace("%ECLIPSE_PROJECT%", eclipseProjectName);
-		dummyConfig = dummyConfig.replace("%IDEA_MODULE%", ideaModuleName);
-		dummyConfig = dummyConfig.replace("%PROGRAM_ARGS%", programArgs.replaceAll("\"", "&quot;"));
-		dummyConfig = dummyConfig.replace("%VM_ARGS%", vmArgs.replaceAll("\"", "&quot;"));
-
-		return dummyConfig;
 	}
 
 	public static String getOSClientJVMArgs() {
