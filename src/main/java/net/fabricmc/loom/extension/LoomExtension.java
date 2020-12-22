@@ -144,6 +144,7 @@ public class LoomExtension {
         new DependencyEntry("user11681:commonformatting:+").key("commonformatting").repository("user11681"),
         new DependencyEntry("user11681:dynamicentry:+").key("dynamicentry").repository("user11681"),
         new DependencyEntry("com.github.Chocohead:Fabric-ASM:master-SNAPSHOT").key("fabricasm").repository("jitpack"),
+        new DependencyEntry("curse.maven:moenchantments-320806:3084973").key("moenchantments").repository("cursemaven"),
         new DependencyEntry("user11681:fabricasmtools:+").key("huntinghamhills").repository("user11681"),
         new DependencyEntry("net.devtech:grossfabrichacks:+").key("grossfabrichacks").repository("grossfabrichackers"),
         new DependencyEntry("user11681:invisiblelivingentities:+").key("invisiblelivingentities").repository("user11681"),
