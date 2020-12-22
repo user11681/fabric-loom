@@ -44,15 +44,11 @@ import java.util.regex.Pattern;
 import com.jfrog.bintray.gradle.BintrayExtension;
 import com.jfrog.bintray.gradle.BintrayPlugin;
 import groovy.util.Node;
-
-import net.fabricmc.loom.extension.LoomExtension;
-
 import net.gudenau.lib.unsafe.Unsafe;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.UnknownTaskException;
 import org.gradle.api.XmlProvider;
-import org.gradle.api.artifacts.ConfigurablePublishArtifact;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.ConfigurationContainer;
 import org.gradle.api.artifacts.Dependency;
@@ -63,6 +59,7 @@ import org.gradle.api.artifacts.dsl.DependencyHandler;
 import org.gradle.api.artifacts.dsl.RepositoryHandler;
 import org.gradle.api.artifacts.repositories.FlatDirectoryArtifactRepository;
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
+import org.gradle.api.file.FileCopyDetails;
 import org.gradle.api.initialization.dsl.ScriptHandler;
 import org.gradle.api.invocation.Gradle;
 import org.gradle.api.logging.Logger;
@@ -98,6 +95,7 @@ import net.fabricmc.loom.decompilers.fernflower.FabricFernFlowerDecompiler;
 import net.fabricmc.loom.dependency.LoomDependencyFactory;
 import net.fabricmc.loom.dependency.configuration.BloatedDependencySet;
 import net.fabricmc.loom.dependency.configuration.IntransitiveDependencySet;
+import net.fabricmc.loom.extension.LoomExtension;
 import net.fabricmc.loom.providers.LaunchProvider;
 import net.fabricmc.loom.providers.MappingsCache;
 import net.fabricmc.loom.providers.MappingsProvider;
@@ -132,7 +130,7 @@ import net.fabricmc.loom.util.mixin.JavaApInvoker;
 import net.fabricmc.loom.util.mixin.KaptApInvoker;
 import net.fabricmc.loom.util.mixin.ScalaApInvoker;
 
-@SuppressWarnings({"ResultOfMethodCallIgnored", "UnstableApiUsage", "ConstantConditions"})
+@SuppressWarnings({"ResultOfMethodCallIgnored", "UnstableApiUsage", "ConstantConditions", "unchecked"})
 public class ProjectHandler {
     public static String latestMinecraftVersion = null;
     public static Map<String, String> latestYarnBuilds = new HashMap<>();
@@ -245,7 +243,6 @@ public class ProjectHandler {
             this.logger.lifecycle("Refresh dependencies is in use; loom will be significantly slower.");
         }
 
-        // apply default plugins
         this.plugins.apply(JavaLibraryPlugin.class);
         this.plugins.apply(MavenPublishPlugin.class);
         this.plugins.apply(EclipsePlugin.class);
@@ -254,7 +251,7 @@ public class ProjectHandler {
         Classes.staticCast(Accessor.getObject(this.repositories, "repositoryFactory"), LoomRepositoryFactory.classPointer);
         Classes.staticCast(Accessor.getObject(this.dependencies, "dependencyFactory"), LoomDependencyFactory.classPointer);
 
-        this.configurations.create("dev");
+//        this.configurations.create("dev");
 
         this.project.beforeEvaluate(ignored -> this.beforeEvaluate());
         this.project.afterEvaluate(ignored -> this.afterEvaluate());
@@ -450,25 +447,25 @@ public class ProjectHandler {
         this.extensions.getByType(JavaPluginExtension.class).withSourcesJar();
 
         for (Jar task : this.tasks.withType(Jar.class)) {
-            task.getArchiveClassifier().set("dev");
+//            task.getArchiveClassifier().set("dev");
 
             task.from("LICENSE");
         }
 
         ProcessResources processResources = (ProcessResources) this.tasks.getByName("processResources");
         processResources.getInputs().property("version", project.getVersion());
-        processResources.filesMatching("fabric.mod.json", ignored -> processResources.expand(Map.of("version", project.getVersion())));
+        processResources.filesMatching("fabric.mod.json", (FileCopyDetails details) -> details.expand(new HashMap<>(Map.of("version", project.getVersion()))));
 
-        File devJar = project.file(String.format("%s/libs/%s-%s-dev.jar", this.project.getBuildDir(), this.project.getName(), this.project.getVersion()));
+//        File devJar = project.file(String.format("%s/libs/%s-%s-dev.jar", this.project.getBuildDir(), this.project.getName(), this.project.getVersion()));
 
-        this.artifacts.add("dev", devJar, (ConfigurablePublishArtifact artifact) -> artifact.builtBy(tasks.getByName("jar")).setType("jar"));
+//        this.artifacts.add("dev", devJar, (ConfigurablePublishArtifact artifact) -> artifact.builtBy(tasks.getByName("jar")).setType("jar"));
 
-        if (devJar.exists()) {
-            RemapJarTask task = (RemapJarTask) tasks.getByName("remapJar");
-
-            task.getInput().set(devJar);
-            task.getArchiveFileName().set(String.format("%s-%s.jar", project.getName(), project.getVersion()));
-        }
+//        if (devJar.exists()) {
+//            RemapJarTask task = (RemapJarTask) tasks.getByName("remapJar");
+//
+//            task.getInput().set(devJar);
+//            task.getArchiveFileName().set(String.format("%s-%s.jar", project.getName(), project.getVersion()));
+//        }
 
         if (this.extension.publish) {
             PublishingExtension publishing = this.extensions.getByType(PublishingExtension.class);
