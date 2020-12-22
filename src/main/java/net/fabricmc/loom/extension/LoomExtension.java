@@ -154,7 +154,7 @@ public class LoomExtension {
         new DependencyEntry("org.junit.jupiter:junit-jupiter:+").key("junit"),
         new DependencyEntry("com.github.Yoghurt4C:LilTaterReloaded:fabric-1.16-SNAPSHOT").key("liltaterreloaded").repository("jitpack"),
         new DependencyEntry("user11681:limitless:+").key("limitless").repository("user11681"),
-        new DependencyEntry("io.github.prospector:modmenu:1.14.6+").key("modmenu"),
+        new DependencyEntry("io.github.prospector:modmenu:+").key("modmenu"),
         new DependencyEntry("net.earthcomputer:multiconnect:+:api").key("multiconnect").repository("earthcomputer"),
         new DependencyEntry("user11681:narratoroff:+").key("narratoroff").repository("user11681"),
         new DependencyEntry("user11681:noauth:+").key("noauth").repository("user11681"),
