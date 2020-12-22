@@ -83,7 +83,7 @@ public class LoomExtension {
     public boolean bintray = true;
     public boolean shareCaches;
 
-    public final RunDirectory run;
+    public final RunDirectory run = new RunDirectory(this);
 
     // Not to be set in the build.gradle
     public final Project project;
@@ -171,7 +171,6 @@ public class LoomExtension {
     public LoomExtension(Project project) {
         this.project = project;
         this.unmappedMods = project.files();
-        this.run = new RunDirectory(this);
     }
 
     private static String sanitize(String key) {

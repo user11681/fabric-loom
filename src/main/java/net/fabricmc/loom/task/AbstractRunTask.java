@@ -87,9 +87,8 @@ public abstract class AbstractRunTask extends JavaExec {
 		}
 
 		args(argsSplit);
-		LoomExtension extension = this.getProject().getExtensions().getByType(LoomExtension.class);
 
-        setWorkingDir(extension.run.getFile());
+        setWorkingDir(this.getProject().getExtensions().getByType(LoomExtension.class).run.getFile());
 
 		super.exec();
 	}
