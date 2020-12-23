@@ -81,7 +81,7 @@ public class LoomExtension {
     public boolean noSpam = true;
     public boolean publish = true;
     public boolean bintray = true;
-    public boolean shareCaches;
+    public boolean shareCaches = true;
 
     public final RunDirectory run = new RunDirectory(this);
 

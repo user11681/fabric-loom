@@ -453,7 +453,7 @@ public class ProjectHandler {
         }
 
         ProcessResources processResources = (ProcessResources) this.tasks.getByName("processResources");
-        processResources.getInputs().property("version", project.getVersion());
+        processResources.getInputs().property("version", this.project.getVersion());
         processResources.filesMatching("fabric.mod.json", (FileCopyDetails details) -> details.expand(new HashMap<>(Map.of("version", project.getVersion()))));
 
 //        File devJar = project.file(String.format("%s/libs/%s-%s-dev.jar", this.project.getBuildDir(), this.project.getName(), this.project.getVersion()));
