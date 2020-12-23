@@ -64,28 +64,7 @@ import net.fabricmc.loom.util.mappings.MojangMappingsDependency;
 
 @SuppressWarnings({"ConstantConditions", "ResultOfMethodCallIgnored"})
 public class LoomExtension {
-    public String refmapName;
-    public String loaderLaunchMethod;
-    public String customManifest;
-    public File accessWidener;
-    public List<String> enumWidener = new ArrayList<>();
-    public Function<String, Object> intermediaryUrl = (String mcVer) -> String.format("https://maven.fabricmc.net/net/fabricmc/intermediary/%s/intermediary-%s-v2.jar", mcVer, mcVer);
-
-    public String minecraftVersion;
-    public String yarnBuild;
-
-    public JavaVersion javaVersion = JavaVersion.VERSION_1_8;
-
-    public boolean autoGenIDERuns = true;
-    public boolean remapMod = true;
-    public boolean noSpam = true;
-    public boolean publish = true;
-    public boolean bintray = true;
-    public boolean shareCaches = true;
-
     public final RunDirectory run = new RunDirectory(this);
-
-    // Not to be set in the build.gradle
     public final Project project;
 
     private final ConfigurableFileCollection unmappedMods;
@@ -97,6 +76,26 @@ public class LoomExtension {
     private LoomDependencyManager dependencyManager;
     private JarProcessorManager jarProcessorManager;
     private JsonObject installerJson;
+
+    private boolean publish = true;
+    private boolean bintray = true;
+
+    public boolean autoGenIDERuns = true;
+    public boolean remapMod = true;
+    public boolean noSpam = true;
+    public boolean shareCaches = true;
+
+    public String refmapName;
+    public String loaderLaunchMethod;
+    public String customManifest;
+    public File accessWidener;
+    public List<String> enumWidener = new ArrayList<>();
+    public Function<String, Object> intermediaryUrl = (String mcVer) -> String.format("https://maven.fabricmc.net/net/fabricmc/intermediary/%s/intermediary-%s-v2.jar", mcVer, mcVer);
+
+    public String minecraftVersion;
+    public String yarnBuild;
+
+    public JavaVersion javaVersion = JavaVersion.VERSION_1_8;
 
     private static final Map<String, String> repositoryMap = new HashMap<>(Map.ofEntries(
         Map.entry("blamejared", "https://maven.blamejared.com"),
@@ -189,6 +188,22 @@ public class LoomExtension {
 
     public static void repository(String key, String value) {
         repositoryMap.put(key, value);
+    }
+
+    public boolean publish() {
+        return this.publish;
+    }
+
+    public void publish(boolean publish) {
+        this.publish = publish;
+    }
+
+    public boolean bintray() {
+        return this.bintray;
+    }
+
+    public void bintray(boolean bintray) {
+        this.bintray = bintray;
     }
 
     public void setJavaVersion(Object version) {

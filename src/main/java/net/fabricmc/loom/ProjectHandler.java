@@ -467,7 +467,7 @@ public class ProjectHandler {
 //            task.getArchiveFileName().set(String.format("%s-%s.jar", project.getName(), project.getVersion()));
 //        }
 
-        if (this.extension.publish) {
+        if (this.extension.publish()) {
             PublishingExtension publishing = this.extensions.getByType(PublishingExtension.class);
             PublicationContainer publications = publishing.getPublications();
 
@@ -489,7 +489,7 @@ public class ProjectHandler {
             this.tasks.create("runTestClient", RunClientTask.class).classpath(testSet.getRuntimeClasspath());
             this.tasks.create("runTestServer", RunServerTask.class).classpath(testSet.getRuntimeClasspath());
 
-            if (this.extension.bintray) {
+            if (this.extension.bintray()) {
                 BintrayExtension bintray = this.extensions.getByType(BintrayExtension.class);
                 bintray.setUser(System.getenv("BINTRAY_USER"));
                 bintray.setKey(System.getenv("BINTRAY_API_KEY"));
