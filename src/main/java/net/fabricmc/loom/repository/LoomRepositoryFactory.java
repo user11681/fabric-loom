@@ -1,6 +1,5 @@
 package net.fabricmc.loom.repository;
 
-import net.gudenau.lib.unsafe.Unsafe;
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository;
 import org.gradle.api.internal.CollectionCallbackActionDecorator;
 import org.gradle.api.internal.FeaturePreviews;
@@ -29,8 +28,6 @@ import org.gradle.internal.resource.local.FileResourceRepository;
 import org.gradle.internal.resource.local.FileStore;
 import org.gradle.internal.resource.local.LocallyAvailableResourceFinder;
 import user11681.reflect.Classes;
-
-import net.fabricmc.loom.dependency.configuration.IntransitiveDependencySet;
 
 public class LoomRepositoryFactory extends DefaultBaseRepositoryFactory {
 	public static final long classPointer = Classes.getClassPointer(LoomRepositoryFactory.class);
