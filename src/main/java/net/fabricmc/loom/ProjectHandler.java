@@ -72,7 +72,6 @@ import org.gradle.api.plugins.JavaPluginExtension;
 import org.gradle.api.plugins.PluginContainer;
 import org.gradle.api.plugins.PluginManager;
 import org.gradle.api.publish.Publication;
-import org.gradle.api.publish.PublicationContainer;
 import org.gradle.api.publish.PublishingExtension;
 import org.gradle.api.publish.maven.MavenPublication;
 import org.gradle.api.publish.maven.plugins.MavenPublishPlugin;
@@ -299,6 +298,7 @@ public class ProjectHandler {
         this.tasks.register("remapJar", RemapJarTask.class, (RemapJarTask task) -> {
             task.setDescription("Remaps the built project jar to intermediary mappings.");
             task.setGroup("fabric");
+            task.doLast((Task remapTask) -> remapTask.getInputs().getFiles().forEach(File::delete));
         });
 
         this.tasks.register("downloadAssets", DownloadAssetsTask.class, (DownloadAssetsTask task) -> task.setDescription("Downloads required assets for Fabric."));
@@ -424,8 +424,8 @@ public class ProjectHandler {
     }
 
     private void afterEvaluate() {
-        checkMinecraftVersion();
-        checkYarnBuild();
+        this.checkMinecraftVersion();
+        this.checkYarnBuild();
 
         this.dependencies.add("minecraft", "com.mojang:minecraft:" + this.extension.minecraftVersion);
         this.dependencies.add("mappings", String.format("net.fabricmc:yarn:%s+build.%s:v2", this.extension.minecraftVersion, this.extension.yarnBuild));
@@ -469,9 +469,8 @@ public class ProjectHandler {
 
         if (this.extension.publish()) {
             PublishingExtension publishing = this.extensions.getByType(PublishingExtension.class);
-            PublicationContainer publications = publishing.getPublications();
 
-            publications.create("maven", MavenPublication.class, (MavenPublication publication) -> {
+            publishing.getPublications().create("maven", MavenPublication.class, (MavenPublication publication) -> {
                 publication.setGroupId((String) this.project.getGroup());
                 publication.setArtifactId(this.project.getName());
                 publication.setVersion((String) this.project.getVersion());
@@ -502,7 +501,7 @@ public class ProjectHandler {
                 pkg.setLicenses("LGPL-3.0");
 
                 BintrayExtension.VersionConfig version = pkg.getVersion();
-                version.setName((String) project.getVersion());
+                version.setName(String.valueOf(project.getVersion()));
                 version.setReleased(new Date().toString());
             }
         }
